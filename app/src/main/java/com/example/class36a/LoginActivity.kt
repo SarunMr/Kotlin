@@ -2,7 +2,6 @@ package com.example.class36a
 
 
 import android.os.Bundle
-import android.view.RoundedCorner
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -184,7 +183,6 @@ fun InstaClone(innerPadding : PaddingValues){
                     modifier = Modifier.height(25.dp).width(25.dp)
                 )
             }
-
         }
     }
 }
