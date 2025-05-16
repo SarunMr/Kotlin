@@ -1,7 +1,9 @@
 package com.example.class36a
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -30,17 +32,21 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,6 +55,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 
 
 class LoginPage : ComponentActivity() {
@@ -56,15 +63,13 @@ class LoginPage : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Scaffold { padding ->
-                LoginBody(padding)
-            }
+                LoginBody()
         }
     }
 }
 
 @Composable
-fun LoginBody(paddingValues: PaddingValues) {
+fun LoginBody() {
 //    var counter : Int = 0
 
     var email by remember { mutableStateOf("") }
@@ -72,8 +77,15 @@ fun LoginBody(paddingValues: PaddingValues) {
     var passwordVisibility by remember { mutableStateOf(false) }
     var rememberMe by remember { mutableStateOf(false)  }
 
+   val snackbarHostState = remember {(SnackbarHostState()) }
+    var coroutineScope = rememberCoroutineScope()
+
+    val context = LocalContext.current
 
 
+Scaffold (
+    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+) { padding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -144,8 +156,9 @@ fun LoginBody(paddingValues: PaddingValues) {
             suffix = {
                 Icon(
                     painterResource(
-                        if(passwordVisibility) R.drawable.baseline_visibility_24 else
-                            R.drawable.baseline_visibility_off_24),
+                        if (passwordVisibility) R.drawable.baseline_visibility_24 else
+                            R.drawable.baseline_visibility_off_24
+                    ),
                     contentDescription = null,
                     modifier = Modifier.clickable {
                         passwordVisibility = !passwordVisibility
@@ -154,19 +167,19 @@ fun LoginBody(paddingValues: PaddingValues) {
                 )
             },
 
-            visualTransformation = if(passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
             )
         )
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-        ){
-            Row (
+        ) {
+            Row(
                 verticalAlignment = Alignment.CenterVertically,
-            ){
+            ) {
 
                 Checkbox(
                     colors = CheckboxDefaults.colors(
@@ -184,7 +197,13 @@ fun LoginBody(paddingValues: PaddingValues) {
             Text("Forget Password?")
         }
         Button(
-            onClick = {},
+            onClick = {
+                if (email == "ram@gmail.com" && password == "password") {
+                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                } else {
+                    coroutineScope.launch { snackbarHostState.showSnackbar("Invalid Login") }
+                }
+            },
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue,
@@ -196,7 +215,7 @@ fun LoginBody(paddingValues: PaddingValues) {
                 text = "Login",
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                )
+            )
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row {
@@ -205,25 +224,30 @@ fun LoginBody(paddingValues: PaddingValues) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Blue,
                 fontSize = 18.sp,
+                modifier = Modifier.clickable(){
+                    val intent = Intent(context, RegisterActivity::class.java)
+                    context.startActivity(intent)
+                }
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,
-        ){
+        ) {
             Text("------------------")
-            Text(text="Use other methods",
+            Text(
+                text = "Use other methods",
                 fontWeight = FontWeight.Bold,
             )
             Text("------------------")
         }
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-        ){
+        ) {
             Image(
                 painter = painterResource(R.drawable.facebook_icon),
                 contentDescription = null,
@@ -239,12 +263,11 @@ fun LoginBody(paddingValues: PaddingValues) {
                     .clip(shape = RoundedCornerShape(100.dp))
             )
         }
-
-
     }
+}
 }
 @Preview
 @Composable
 fun PreviewLogin(){
-    LoginBody(paddingValues = PaddingValues(0.dp))
+    LoginBody()
 }

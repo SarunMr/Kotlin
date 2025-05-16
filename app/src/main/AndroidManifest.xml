@@ -16,15 +16,20 @@
         android:theme="@style/Theme.Class36A"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterAcitivity"
+            android:name=".RegisterActivity"
             android:exported="false"
             android:label="@string/title_activity_register_acitivity"
             android:theme="@style/Theme.Class36A" />
         <activity
             android:name=".LoginPage"
-            android:exported="false"
-            android:label="@string/title_activity_login_page"
-            android:theme="@style/Theme.Class36A" />
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Class36A">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -32,10 +37,10 @@
             android:theme="@style/Theme.Class36A">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

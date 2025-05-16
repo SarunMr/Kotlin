@@ -1,5 +1,6 @@
 package com.example.class36a
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -79,6 +81,7 @@ fun RegistrationBody(innerPadding: PaddingValues) {
 
     // List of countries for dropdown
     val countries = listOf("United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "India", "Japan")
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -295,7 +298,10 @@ fun RegistrationBody(innerPadding: PaddingValues) {
         Text(
             text = "Already have Account, SignIn",
             color = Color.Blue,
-            modifier = Modifier.clickable { /* Navigate to login */ }
+            modifier = Modifier.clickable(){
+                val intent = Intent(context, LoginActivity::class.java)
+                context.startActivity(intent)
+            }
         )
     }
 }
