@@ -1,6 +1,7 @@
 package com.example.class36a
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -79,6 +80,13 @@ fun LoginBody() {
    val snackbarHostState = remember {(SnackbarHostState()) }
     var coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("User",Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+
+    val localEmail : String = sharedPreferences.getString("email","").toString()
+    val localPassword :String = sharedPreferences.getString("password","").toString()
+    email = localEmail
+    password = localPassword
 
 Scaffold (
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -199,6 +207,11 @@ Scaffold (
                     Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
                 } else {
                     coroutineScope.launch { snackbarHostState.showSnackbar("Invalid Login") }
+                }
+                if (rememberMe){
+                    editor.putString("email",email)
+                    editor.putString("password",password)
+                    editor.apply()
                 }
                 val intent = Intent(context, DashboardActivity::class.java)
                 intent.putExtra("email",email)

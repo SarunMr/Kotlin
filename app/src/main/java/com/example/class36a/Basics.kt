@@ -1,5 +1,5 @@
 package com.example.class36a
-
+//check
 fun lesson3(){
     //Basics of Kotlin
     //How to declare variable in kotlin
