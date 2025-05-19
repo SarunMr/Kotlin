@@ -2,4 +2,6 @@
     <string name="app_name">Class36A</string>
     <string name="title_activity_login_page">LoginPage</string>
     <string name="title_activity_register_acitivity">RegisterAcitivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

@@ -12,7 +12,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -79,9 +78,7 @@ fun LoginBody() {
 
    val snackbarHostState = remember {(SnackbarHostState()) }
     var coroutineScope = rememberCoroutineScope()
-
     val context = LocalContext.current
-
 
 Scaffold (
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -203,6 +200,10 @@ Scaffold (
                 } else {
                     coroutineScope.launch { snackbarHostState.showSnackbar("Invalid Login") }
                 }
+                val intent = Intent(context, DashboardActivity::class.java)
+                intent.putExtra("email",email)
+                intent.putExtra("email",email)
+                context.startActivity(intent)
             },
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(
