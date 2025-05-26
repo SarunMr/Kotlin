@@ -4,4 +4,5 @@
     <string name="title_activity_register_acitivity">RegisterAcitivity</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_list_view_acitvity">ListViewAcitvity</string>
 </resources>
